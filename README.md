@@ -136,6 +136,59 @@ Image_Registration/
 ```
 
 
+# Model Input / Output
+
+```text
+Input
+-----
+Moving Image : SAR
+Fixed Image  : Optical
+
+Output
+------
+Registered SAR Image
+Predicted Affine Matrix
+```
 
 
 
+Edge Loss   : Aligns structural features
+Theta Loss  : Measures affine parameter accuracy
+
+Total Loss  = Edge Loss + λ × Theta Loss
+
+
+
+# How To Run
+```text
+1. Install Dependencies:
+   pip install -r requirements.txt
+
+2. Check GPU:
+   python scripts/check_gpu.py
+
+3. Check Dataset:
+   python scripts/check_dataset.py
+
+4. Preprocess Dataset:
+   python -m training.preprocess
+
+5. Split Dataset:
+   python -m training.split_dataset
+
+6. Train Model:
+   python -m training.train
+
+7. Validate Model:
+   python -m training.validate
+
+8. Run Inference:
+   python -m inference.predict --moving path_to_sar_image --fixed path_to_optical_image
+
+9. Run Web App:
+   python run_app.py
+
+10. Open in Browser:
+    http://127.0.0.1:8000
+
+```
