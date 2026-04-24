@@ -1,13 +1,56 @@
-# Multi-Modal-Satellite-Image-Registration
+# Multimodal Satellite Image Registration
 
-A deep learning-based image registration system that aligns SAR (Sentinel-1) satellite imagery with corresponding Optical (Sentinel-2) imagery using an affine transformation network built with PyTorch, with a FastAPI frontend/backend for interactive inference.
-This project uses paired SAR-optical patches from the SEN1-2 style terrain-wise dataset and learns to geometrically align cross-modal remote sensing images.
+A deep learning project that aligns **SAR (Sentinel-1)** satellite images with corresponding **Optical (Sentinel-2)** images using an **Affine Registration Network** built with **PyTorch**, integrated with a **FastAPI web interface** for inference.
 
-Project Highlights
-->Deep learning based cross-modal image registration
-->Aligns SAR image to Optical reference image
-->Uses Affine Transformation Prediction Network
-->GPU accelerated training using CUDA
-->FastAPI web interface for image upload and inference
-->Works on terrain-wise Sentinel-1 / Sentinel-2 datasets
-->Modular training + inference + deployment pipeline
+---
+
+# Overview
+
+Satellite images from different sensors capture the same region in different ways:
+
+- **SAR** works in all weather and day/night conditions.
+- **Optical** captures rich visual scene details.
+
+This project performs **multimodal image registration** to spatially align SAR images with Optical reference images for improved analysis.
+
+---
+
+# Dataset
+
+Terrain-wise paired Sentinel dataset:
+
+```text
+data/raw/v_2/
+├── agri/
+│   ├── s1/   (SAR)
+│   └── s2/   (Optical)
+├── barrenland/
+│   ├── s1/
+│   └── s2/
+├── grassland/
+│   ├── s1/
+│   └── s2/
+└── urban/
+    ├── s1/
+    └── s2/
+
+
+```
+# Tech Stack
+
+```text
+Programming Language : Python 3.11
+Deep Learning       : PyTorch
+GPU Acceleration    : CUDA
+Computer Vision     : OpenCV
+Numerical Computing : NumPy
+Backend Framework   : FastAPI
+ASGI Server         : Uvicorn
+Frontend            : HTML / CSS / JavaScript
+Image Handling      : Pillow
+Visualization       : Matplotlib
+Progress Tracking   : tqdm
+Configuration       : YAML
+```
+
+
