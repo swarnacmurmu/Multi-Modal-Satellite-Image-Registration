@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SAR Optical Image Registration</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>SAR Optical Image Registration</h1>
+
+        <p class="subtitle">
+            Upload SAR as the moving image and Optical as the fixed reference image.
+        </p>
+
+        <form id="uploadForm">
+            <div class="form-group">
+                <label>Moving Image - SAR / Sentinel-1</label>
+                <input type="file" name="moving_file" accept="image/*" required>
+            </div>
+
+            <div class="form-group">
+                <label>Fixed Image - Optical / Sentinel-2</label>
+                <input type="file" name="fixed_file" accept="image/*" required>
+            </div>
+
+            <button type="submit">Run Registration</button>
+        </form>
+
+        <div id="status"></div>
+        <div id="result" class="result-box"></div>
+    </div>
+
+    <script>
+        const form = document.getElementById("uploadForm");
+        const statusDiv = document.getElementById("status");
+        const resultDiv = document.getElementById("result");
+
+        form.addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            statusDiv.innerHTML = "Processing registration...";
+            resultDiv.innerHTML = "";
+
+            const formData = new FormData(form);
+
+            try {
+                const response = await fetch("/predict", {
+                    method: "POST",
+                    body: formData
+                });
+
+                if (!response.ok) {
+                    const errText = await response.text();
+                    throw new Error(errText);
+                }
+
+                const data = await response.json();
+                const t = Date.now();
+
+                statusDiv.innerHTML = "Registration completed.";
+
+                resultDiv.innerHTML = `
+                    <h2>Before and After Alignment</h2>
+
+                    <div class="comparison-grid">
+                        <div class="card">
+                            <h3>Input SAR</h3>
+                            <img src="${data.input_sar}?t=${t}">
+                        </div>
+
+                        <div class="card">
+                            <h3>Fixed Optical</h3>
+                            <img src="${data.fixed_optical}?t=${t}">
+                        </div>
+
+                        <div class="card">
+                            <h3>Before Alignment Overlay</h3>
+                            <img src="${data.before_overlay}?t=${t}">
+                            <p>SAR before registration over optical image.</p>
+                        </div>
+
+                        <div class="card">
+                            <h3>After Alignment Overlay</h3>
+                            <img src="${data.after_overlay}?t=${t}">
+                            <p>Warped SAR after registration over optical image.</p>
+                        </div>
+
+                        <div class="card">
+                            <h3>Warped SAR Output</h3>
+                            <img src="${data.warped_sar}?t=${t}">
+                        </div>
+                    </div>
+
+                    <h3>Predicted Affine Matrix</h3>
+                    <pre>${JSON.stringify(data.theta, null, 2)}</pre>
+                `;
+            } catch (error) {
+                statusDiv.innerHTML = "Error occurred during registration.";
+                resultDiv.innerHTML = `<pre>${error.message}</pre>`;
+            }
+        });
+    </script>
+</body>
+</html>
