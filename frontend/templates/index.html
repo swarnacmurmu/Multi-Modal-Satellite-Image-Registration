@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SAR-Optical Alignment</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>SAR ↔ Optical Image Alignment</h1>
+      <p>Upload one SAR image and one optical image of the same scene. The backend will align SAR to the optical reference and show the overlay.</p>
+    </header>
+
+    <section class="card">
+      <div class="grid two">
+        <div>
+          <label for="sar">SAR image</label>
+          <input id="sar" type="file" accept="image/*" />
+          <img id="sarPreview" class="preview" alt="SAR preview" />
+        </div>
+        <div>
+          <label for="optical">Optical image</label>
+          <input id="optical" type="file" accept="image/*" />
+          <img id="opticalPreview" class="preview" alt="Optical preview" />
+        </div>
+      </div>
+      <button id="runBtn">Align images</button>
+      <p id="status"></p>
+    </section>
+
+    <section id="results" class="card hidden">
+      <h2>Results</h2>
+      <div id="metrics" class="metrics"></div>
+      <div class="grid two">
+        <div>
+          <h3>Warped SAR</h3>
+          <img id="warpedImg" class="result" alt="Warped SAR" />
+        </div>
+        <div>
+          <h3>Overlay</h3>
+          <img id="overlayImg" class="result" alt="Overlay" />
+        </div>
+      </div>
+      <div>
+        <h3>Feature Matches</h3>
+        <img id="matchesImg" class="result wide" alt="Feature matches" />
+      </div>
+    </section>
+  </div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
