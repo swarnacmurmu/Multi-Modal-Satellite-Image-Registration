@@ -1,0 +1,13 @@
+fastapi
+uvicorn[standard]
+python-multipart
+jinja2
+numpy
+opencv-python
+pillow
+matplotlib
+torch
+torchvision
+kornia
+scikit-image
+pandas
